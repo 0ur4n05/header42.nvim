@@ -31,16 +31,15 @@ function update(filename, index, line)
 	for line in file:lines() do 
 	    content[#content + 1] = line
   	end
-	print(content[9])
     -- modifying the date
     content[9] = string.format("%s%s%s", string.sub(content[9], 1, index-1), date , string.sub(content[9], index+string.len(date), string.len(content[9])))
-	print(content[9])
     local file = io.open(filename, "w")
 	-- overwriting everyline
 	for i=1,#content do
 		file:write(content[i])
 		file:write('\n')			-- writing the newline after each line
 	end	
+	vim.cmd("edit")
     io.close(file)
 end
 

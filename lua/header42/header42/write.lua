@@ -25,7 +25,7 @@ function infos()
 
 	-- making sure that everything is alright 
 	if user == nil or email == nil then 
-		print("User informations arent set please read README.md")
+		vim.notify("User informations arent set please read README.md")
 		do return end
 	end 
 
@@ -35,9 +35,7 @@ function infos()
 	table.insert(infos, email)
 
 	-- if school isnt provided it is automatically 42
-	if school == nil then
-		school = "42"
-	elseif school == "42" then
+	if school == "42" then
 		table.insert(infos, fortytwo)
 	elseif school == "1337" then
 		table.insert(infos, leet)
@@ -75,7 +73,7 @@ end
 function logo(line, logo)
 	badge = {}
 	for i=1, #logo do
-		l = string.format("%s%s%s",string.sub(line,1,string.len(line)-string.len(logo[1])-2), logo[i],string.sub(line,string.len(line)-2, string.len(line)) )
+		l = string.format("%s%s%s",string.sub(line,1,string.len(line)-string.len(logo[1]) - 4), logo[i],string.sub(line,string.len(line) -3, string.len(line)) )
 		table.insert(badge, l)
 	end
 	return badge
@@ -118,14 +116,26 @@ local M = {}
 -- write the header to the file 
 function M.write()
 	filepath = vim.api.nvim_buf_get_name(0)		-- current filename
-	comments = comments(filepath)
-	badge = badge(filepath,infos(),comments )			-- getting the badge
-	current_file = io.open(filepath, "a+")
-	current_file:seek('set',0)			-- setting the cursor to the beginning
-	for i=1,#badge do 		-- writing the badge to the beginning of the file
-		current_file:write(badge[i])
+	print(filepath)
+	comments_table = comments(filepath)
+	badge_table = badge(filepath,infos(),comments_table )			-- getting the badge
+	content = {}
+	current_file = io.open(filepath, "r+")
+	-- in this case we cant use seek in rppend mode
+	for line in current_file:lines() do 
+		content[#content + 1] = line
+	end
+	current_file = io.open(filepath, "w+")
+	for i=1,#badge_table do 		-- writing the badge to the beginning of the file
+		current_file:write(badge_table[i])
 		current_file:write('\n')			-- newline
 	end
+	-- writing the rest of the file 
+	for i=1,#content do 
+		current_file:write(content[i])
+		current_file:write("\n")
+	end
+	vim.cmd(":edit!")
 	-- closing the current file
 	io.close(current_file)
 end

@@ -19,13 +19,11 @@ function comments(filename)
 	-- splitting the filename using the . to get his extention
 	file_extension = split(filename, ".")
 	if file_extension == nil then
-		print("No file detected")			-- printing an error message that no file is provided
-		do return end			-- returning nothing
+		vim.notify("No file detected")			-- printing an error message that no file is provided
 	end
 	local comments = detect_extention(file_extension)
 	if comments == nil then 		-- if nil returned then the file type isnt found
-		print("File extention not found, please check it or make an issue in https://github.com/0ur4n05/header42.nvim to add your favourite language")
-		do return end
+		vim.notify("File extention not found, please check it or make an issue in https://github.com/0ur4n05/header42.nvim to add your favourite language")
 	end
 	return comments
 end
