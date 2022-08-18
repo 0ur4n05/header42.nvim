@@ -122,6 +122,10 @@ function M.write()
 		do return end		-- the header is already there so there is no need 
 	end
 	comments_table = comments(filepath)
+	if comments_table == nil then
+		print("Unknown file type, please make an issue")
+		do return end
+	end
 	info_table = infos()
 	if info_table == nil then 
 		print("environement variables arent set, please read README.md")
