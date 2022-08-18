@@ -1,10 +1,8 @@
 -- checking if the badge has been appliyed before if so we update the update date
 
-local M = {}
-
 -- checks if the badge exists
-function M.exists(filename)
-    file = io.open(filename, "a+")
+function exists(filename)
+    file = io.open(filename, "r")
     up_line = ''               -- the line of updated
     count = 1
     for line in file:lines() do
@@ -14,17 +12,25 @@ function M.exists(filename)
         count = count + 1
     end
     -- checking the line to check if the header is there
+    io.close(file)
     updated_index = string.find(up_line, "Updated: ")
     if updated_index == nil then    -- if the header isnt found dont do anything
-        do return end
+		return false 
     end
-    updated_index = updated_index + string.len("Updated: ")         -- setting the index of the starting of the line
-	update(filename, updated_index,up_line)
-    io.close(file)
+	return true
 end
 
-function update(filename, index, line)
+local M = {}
+
+function M.update(index, line)
+	filename = vim.api.nvim_buf_get_name(0)		-- current filename
     local file = io.open(filename, "r")
+	line = ""
+	if exists(filename) == true then 
+		
+	else 
+		do return end
+	end
     local date = os.date("%d/%m/%Y %X")
     -- TODO: this method isnt efficient, please change it 
     local content = {}       -- reading the content of the file 

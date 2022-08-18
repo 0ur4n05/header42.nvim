@@ -4,6 +4,6 @@ local update = require("header42.header42.update")
 local M = {}
 
 M.header42 = write.write
-M.update42 = update.exists
+M.update42 = update.update
 
 return M

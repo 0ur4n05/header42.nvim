@@ -135,9 +135,10 @@ function M.write()
 		current_file:write(content[i])
 		current_file:write("\n")
 	end
-	vim.cmd(":edit!")
+	current_file:write("\n")
 	-- closing the current file
 	io.close(current_file)
+	vim.cmd(":checktime")
 end
 
 -- insert string 2 to string 1 in index pos
