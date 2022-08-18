@@ -22,21 +22,21 @@ end
 
 local M = {}
 
-function M.update(index, line)
+function M.update()
 	filename = vim.api.nvim_buf_get_name(0)		-- current filename
     local file = io.open(filename, "r")
-	line = ""
+    local content = {}       -- reading the content of the file 
+	index = 0
 	if exists(filename) == true then 
-		
+		-- TODO: this method isnt efficient, please change it 
+		for line in file:lines() do 
+			content[#content + 1] = line
+		end
+		index =  string.find(content[9], "Updated: ") + string.len("Updated: ")
 	else 
 		do return end
 	end
     local date = os.date("%d/%m/%Y %X")
-    -- TODO: this method isnt efficient, please change it 
-    local content = {}       -- reading the content of the file 
-	for line in file:lines() do 
-	    content[#content + 1] = line
-  	end
     -- modifying the date
     content[9] = string.format("%s%s%s", string.sub(content[9], 1, index-1), date , string.sub(content[9], index+string.len(date), string.len(content[9])))
     local file = io.open(filename, "w")
@@ -45,8 +45,8 @@ function M.update(index, line)
 		file:write(content[i])
 		file:write('\n')			-- writing the newline after each line
 	end	
-	vim.cmd("edit")
     io.close(file)
+	vim.cmd("edit")
 end
 
 return M

@@ -1,4 +1,5 @@
 require "header42.header42.asciiart"			-- a file that contain the ascii art for every school
+require "header42.header42.update"			-- 
 require "header42.header42.file"			-- 
 -- creating the header and returning it back
 
@@ -116,9 +117,17 @@ local M = {}
 -- write the header to the file 
 function M.write()
 	filepath = vim.api.nvim_buf_get_name(0)		-- current filename
-	print(filepath)
+	if exists(filepath) == true then
+		print("Header already exists")
+		do return end		-- the header is already there so there is no need 
+	end
 	comments_table = comments(filepath)
-	badge_table = badge(filepath,infos(),comments_table )			-- getting the badge
+	info_table = infos()
+	if info_table == nil then 
+		print("environement variables arent set, please read README.md")
+		do return end
+	end 
+	badge_table = badge(filepath,info_table,comments_table )			-- getting the badge
 	content = {}
 	current_file = io.open(filepath, "r+")
 	-- in this case we cant use seek in rppend mode

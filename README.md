@@ -49,7 +49,7 @@ Add this to your shell config (.bashrc or .zshrc)
 ```sh
 export USER42="your_login"
 export EMAIL42="school_email"
-export SCHOOL42="school_name"				## example 42/1337
+export SCHOOL42="school_name"				## example 42/1337 (optional)
 ```
 ### Windows
 Open a powershell terminal and execute this as one command

@@ -41,7 +41,7 @@ function detect_extention(extention)
 		[{"clojure", "wat"}] = {";;", "*", ";;"}, 
 		[{"asm"}] = {";","*", ";"}, 
 		[{"html", "xml"}] = {"<!--", "-", "-->"}, 
-		[{"vim"}] = {"\""}
+		[{"vim"}] = {"\"","*", "\""}
 	}
 	for ext, comm  in pairs(extentions) do		-- iterating over elements
 		for i = 1, #ext  do						-- iterating over file extentions 
