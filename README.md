@@ -2,6 +2,9 @@
 42 header for neovim made with lua
 ![example](https://i.imgur.com/csSvrI3.png)
 
+## How to use ?
+So simple, there is two commands ":Header42" or F1 to insert the header and ":Update42" to update it (it does work automatically)
+
 ## Why?
 Simple reason is because the official vim header is kinds old, headers for your favorite language? FUCK YOU for just thinking about it.
 Well i just wanted to make a lua version of the 42 header, to get into vim plugin creation.
