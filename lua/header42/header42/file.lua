@@ -16,8 +16,19 @@ end
 -- takes the current session filename 
 -- returns an array of starting comment to the ending comment and the padding 
 function comments(filename)
-	-- splitting the filename using the . to get his extention
-	file_extension = split(filename, ".")
+	local file_extension
+
+	-- get only the filename
+	filename = vim.fn.fnamemodify(filename, ":t")
+	
+	if filename == "Makefile" or filename == "makefile" then
+		-- detect makefile file
+		file_extension = "makefile"
+	else
+		-- splitting the filename using the . to get his extention
+		file_extension = split(filename, ".")
+	end
+
 	if file_extension == nil then
 		vim.notify("No file detected")			-- printing an error message that no file is provided
 	end
@@ -31,10 +42,11 @@ end
 -- detects the extention from a dictionary and return the type of comments 
 -- returns nil if the file extention isnt found
 function detect_extention(extention)
+
 	-- a table of extentions and their comments 
 	local extentions = {
     	[{'js', "java", "c", "C", "cpp","CPP","HPP","h","hpp","H","go","cs","php","phtml","phps", "swift", "ts", "rs", "kt", "kts","scala", "d", "css"}] = {"/*","*", "*/"},
-    	[{"py","sh", "r","nim","jl","rb","ex","exs","cr","ps1","psm1", "zig", "yaml", "conf"}] = {"#","#","#"},
+    	[{"py","sh", "r","nim","jl","rb","ex","exs","cr","ps1","psm1", "zig", "yaml", "conf", "makefile"}] = {"#","#","#"},
 		[{"lua", "hs"}] = {"--", "-", "--"},
 		[{"coffee"}] = {"///", "*", "///"},
 		[{"vb"}] = {"\'"}, 
@@ -43,6 +55,7 @@ function detect_extention(extention)
 		[{"html", "xml"}] = {"<!--", "-", "-->"}, 
 		[{"vim"}] = {"\"","*", "\""}
 	}
+
 	for ext, comm  in pairs(extentions) do		-- iterating over elements
 		for i = 1, #ext  do						-- iterating over file extentions 
 			if ext[i] == extention then			-- if eql return comm
